@@ -27,9 +27,9 @@ def scrape_mp(url, name)
   noko = noko_for(url)
   data = { 
     id: url.to_s[/MemberId=(\d+)/, 1],
-    name: noko.css('#ctl00_PlaceHolderMain_EditModePanelintroview_Members_lblTitle').text.strip.split(' - ')[1],
-    family_name: name.split(', ').first,
-    given_name: name.split(', ').last,
+    name: noko.css('#ctl00_PlaceHolderMain_EditModePanelintroview_Members_lblTitle').text.strip.split(' - ')[1].strip,
+    family_name: name.split(', ').first.strip,
+    given_name: name.split(', ').last.strip,
     sort_name: name,
     parish: noko.xpath('.//div[contains(text(), "Parish")]/following::p[1]').text.strip,
     email: noko.css('a[href*="mailto"]/@href').map(&:text).find { |e| e.include? 'gov.je' }.to_s.sub('mailto:',''),

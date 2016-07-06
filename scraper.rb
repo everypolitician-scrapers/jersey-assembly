@@ -4,12 +4,17 @@
 require 'scraperwiki'
 require 'nokogiri'
 require 'open-uri'
+require 'pry'
 
-# require 'colorize'
-# require 'pry'
-# require 'csv'
-# require 'open-uri/cached'
-# OpenURI::Cache.cache_path = '.cache'
+require 'colorize'
+require 'open-uri/cached'
+OpenURI::Cache.cache_path = '.cache'
+
+class String
+  def tidy
+    self.gsub(/[[:space:]]+/, ' ').strip
+  end
+end
 
 def noko_for(url)
   Nokogiri::HTML(open(url).read) 
@@ -25,9 +30,12 @@ end
 
 def scrape_mp(url, name)
   noko = noko_for(url)
+  position, fullname = noko.css('#ctl00_PlaceHolderMain_EditModePanelintroview_Members_lblTitle').text.strip.split(' - ').map(&:tidy)
+
   data = { 
     id: url.to_s[/MemberId=(\d+)/, 1],
-    name: noko.css('#ctl00_PlaceHolderMain_EditModePanelintroview_Members_lblTitle').text.strip.split(' - ')[1].strip,
+    name: fullname,
+    position: position,
     family_name: name.split(', ').first.strip,
     given_name: name.split(', ').last.strip,
     sort_name: name,

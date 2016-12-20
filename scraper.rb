@@ -6,7 +6,6 @@ require 'nokogiri'
 require 'open-uri'
 require 'pry'
 
-require 'colorize'
 require 'open-uri/cached'
 OpenURI::Cache.cache_path = '.cache'
 

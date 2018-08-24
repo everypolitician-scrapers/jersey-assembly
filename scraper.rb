@@ -50,4 +50,4 @@ def scrape_mp(url, name)
   ScraperWiki.save_sqlite([:id, :term], data)
 end
 
-scrape_list('http://www.statesassembly.gov.je/Pages/Members.aspx?FilterBy=name')
+scrape_list('https://www.statesassembly.gov.je/Pages/Members.aspx?FilterBy=name')
